@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.HomePageMapper" >
+  <resultMap id="getTaskListMap" type="com.olo.ding.entity.HomePageEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+ 	<result column="taskResourceName" property="taskResourceName" jdbcType="VARCHAR" />
+ 	<result column="operatedate" property="operatedate" jdbcType="VARCHAR" />
+ 	<result column="operatetime" property="operatetime" jdbcType="VARCHAR" />
+ 	<result column="isFinished" property="isFinished" jdbcType="VARCHAR" />
+ 	<result column="operateDateAndTime" property="operateDateAndTime" jdbcType="VARCHAR" />
+ 	<result column="receivetime" property="receivetime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="getAllPeople" type="com.olo.ding.entity.HrmEntity" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+ 	<result column="fb" property="fb" jdbcType="VARCHAR" />
+ 	<result column="bm" property="bm" jdbcType="VARCHAR" />
+ 	<result column="zw" property="zw" jdbcType="VARCHAR" />
+ 	<result column="zjid" property="zjid" jdbcType="VARCHAR" />
+ 	<result column="IsUser" property="IsUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="getPhone" type="com.olo.ding.entity.HrmEntity" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+ 	<result column="fb" property="fb" jdbcType="VARCHAR" />
+ 	<result column="bm" property="bm" jdbcType="VARCHAR" />
+ 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="queryBranchPeople" type="com.olo.ding.entity.HrmEntity" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="queryPmTree" type="com.olo.ding.utils.Node" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+     <result column="title" property="title" jdbcType="VARCHAR" />
+     <result column="isUser" property="isUser" jdbcType="VARCHAR" />
+      <result column="zj" property="zj" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   
+  <select id="getTaskList" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map" >
+  	    select distinct  
+  	      <if test="type == 0">
+     	0 isFinished,
+    	</if>
+    	 <if test="type == 1">
+     	1 isFinished,
+    	</if>
+  	    wr.requestname, wr.lastoperatedate operatedate,wr.lastoperatetime operatetime, 
+  	    (select receivetime from (select (receivedate || ' ' || receivetime)  receivetime,requestid from WORKFLOW_CURRENTOPERATOR order by (receivedate || ' ' || receivetime) desc)where requestid = wc.requestid and rownum=1)  receivetime,
+        (Select  operatetime From 
+(select requestid,(operatedate || ' ' ||operatetime)operatetime from WORKFLOW_CURRENTOPERATOR  where  nodeid='90550' and isremark =2 Order By (operatedate || ' ' ||operatetime) desc) 
+Where  requestid = a.requestid  and rownum=1) operateDateAndTime,                 
+    	
+    	 
+  	    decode(a.newrwjzrq,'',a.rwjzrq,a.newrwjzrq) taskDemandTime ,
+  	    a.requestid,a.name taskName,decode(a.taskResource,'0','上下级','1','项目专项','2','周期要务','3','会议')taskResourceName,
+        a.taskResource,
+        hrm_1.lastname taskDistributor,hrm_2.lastname taskReceiver from formtable_main_836 a
+        left join workflow_requestbase wr on a.requestid = wr.requestid
+        left join WORKFLOW_CURRENTOPERATOR wc 
+           <if test="type == 0">
+     	 on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+    	</if>
+    	 <if test="type == 1">
+    	     on wc.requestid = a.requestid
+    	</if>
+        left join hrmresource hrm_1 on a.re_cjr = hrm_1.id
+        left join hrmresource hrm_2 on a.zxr = hrm_2.id
+        where wc.userid = #{userId,jdbcType=INTEGER} 
+        and a.taskResource is not null
+         <if test="type == 0">
+     	and wc.isremark =0
+    	</if>
+    	 <if test="type == 1">
+     	and wc.isremark !=0
+    	</if>
+    	 order by taskDemandTime desc 
+  </select>
+  
+  <select id="getPgdList" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map">
+   select * from ( select 
+      <if test="type == 0">
+     	0 isFinished,
+    	</if>
+    	 <if test="type == 1">
+     	1 isFinished,
+    	</if>
+    	(select receivetime from (select (receivedate || ' ' || receivetime)  receivetime,requestid from WORKFLOW_CURRENTOPERATOR order by (receivedate || ' ' || receivetime) desc)where requestid = wc.requestid and rownum=1) receivetime,
+   '4' taskResource,(wc.operatedate || ' ' || wc.operatetime)operatedate,(wr.lastoperatedate || wr.lastoperatetime) operateDateAndTime,(select cfpgsc from uf_workflow_standar_dt1 where currentnode = 83542)jdbzsj,
+   (wc.receivedate ||' '||wc.receivetime)sjldjssj ,hrm_1.lastname taskReceiver,a.requestid,a.cslc,wr.requestname taskName,
+      '管理派工单'taskResourceName,'系统管理员'taskDistributor from formtable_main_790 a 
+    left join workflow_requestbase wr
+    on a.cslc = wr.requestid
+    left join WORKFLOW_CURRENTOPERATOR wc
+     <if test="type == 0">
+     	 on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+    	</if>
+    	 <if test="type == 1">
+    	     on wc.requestid = a.requestid
+    	</if>
+    left join hrmresource hrm_1 on wc.userid = hrm_1.id
+    where wc.userid = #{userId,jdbcType=INTEGER} 
+     <if test="type == 0">
+     	and wc.isremark =0
+    	</if>
+    	 <if test="type == 1">
+     	and wc.isremark !=0
+    	</if>)
+   	  order by sjldjssj desc 
+  </select>
+  
+   
+   <select id="getRank" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map" >
+  	select zxr taskReceiver,taskScore  from formtable_main_836 
+    where taskResource !=4 and zxr is not null
+  </select>
+  
+   <select id="getAllPeople" resultMap="getAllPeople" resultType ="java.util.List" parameterType="Map">
+        select a.id,a.lastname name ,d.subcompanyname fb,c.departmentname bm ,b.jobtitlemark zw from hrmresource a left join HrmJobTitles b on a.jobtitle = b.id 
+				 left join hrmdepartment c on a.departmentid = c.id left join HrmSubCompany d on a.subcompanyid1=d.id where a.status in ('0','1','2','3') and 
+				 a.accounttype != '1'  and a.status !=5
+       				<if test="type ==1">
+    						and (a.lastname like '%${keyword}%'  or a.mobile like '%${keyword}%')
+					</if>
+   </select>
+   
+   <select id="getPhone" resultMap="getPhone" resultType ="java.util.List" parameterType="Map">
+        select a.id,a.lastname name ,d.subcompanyname fb,c.departmentname bm ,b.jobtitlemark zw from hrmresource a left join HrmJobTitles b on a.jobtitle = b.id 
+				 left join hrmdepartment c on a.departmentid = c.id left join HrmSubCompany d on a.subcompanyid1=d.id where a.status in ('0','1','2','3') 
+       				and a.lastname 
+       				<foreach collection="list" item="lastname" index="index" open="(" close=")" separator=",">
+					  #{name}
+					</foreach>
+   </select>
+   
+   <select id="queryBranchPeople" resultMap="queryBranchPeople" resultType ="java.util.List" parameterType="Map">
+       select id,lastname name from hrmresource where id in(select id from hrmresource where managerid　＝#{userId}  and status in ('0','1','2','3') )
+   </select>
+   
+    <select id="queryPmTree" resultMap="queryPmTree" resultType ="java.util.List" parameterType="Map">
+         select * from (select distinct a.id ,a.managerid pid,a.lastname ||'(' ||b.field31 ||')' title,'1' IsUser,b.field31 zj from HrmResource a left join cus_fielddata b on a.id = b.id 
+                     where a.status in (0,1,2,3) and (a.Accounttype =0 or  a.Accounttype is null)   and  a.loginid is not null
+                     and a.subcompanyid1 in(1,8261,5561) and b.field22 is not null and b.field31 is not null
+                     )a
+                     START WITH a.id= #{userId}
+                     CONNECT BY prior a.id= a.pid
+   </select>
+   
+     <select id="queryPmTreeQl" resultMap="queryPmTree" resultType ="java.util.List" parameterType="Map">
+       select distinct a.id ,a.managerid pid,a.lastname ||'(' ||b.field31 ||')' title,'1' IsUser,b.field31 zj from HrmResource a left join cus_fielddata b on a.id = b.id where a.status in (0,1,2,3) and (a.Accounttype =0 or  a.Accounttype is null)   and  a.loginid is not null
+					 and a.subcompanyid1 in(1,8261,5561) and b.field22 is not null and b.field31 is not null
+   </select>
+     
+     <select id="querySubordinate" resultMap="getAllPeople" resultType ="java.util.List" parameterType="Map">
+           select a.id,a.lastname name ,d.subcompanyname fb,c.departmentname bm ,b.jobtitlemark zw from hrmresource a left join HrmJobTitles b on a.jobtitle = b.id 
+				 left join hrmdepartment c on a.departmentid = c.id left join HrmSubCompany d on a.subcompanyid1=d.id where a.status in ('0','1','2','3') and 
+				 a.accounttype != '1'  and a.status !=5
+				 and (a.lastname like '%${keyword}%'  or a.mobile like '%${keyword}%')
+				 start with a.id = #{userId} connect by prior a.id = a.managerid 
+     </select>
+     
+     
+       <select id="getPmPeople" resultMap="getAllPeople" resultType ="java.util.List" parameterType="Map">
+       select distinct a.id,b.field32 zjid,a.lastname name,c.departmentname bm,'1' IsUser,d.CNAME zw from HrmResource a 
+     left join cus_fielddata b on a.id = b.id 
+     left join cus_wl_basedata@ehr d on b.field32 = d.NO
+     left join hrmdepartment c on a.departmentid = c.id 
+     where a.status in (0,1,2,3) and (a.Accounttype =0 or  a.Accounttype is null)   and  a.loginid is not null
+					 and a.subcompanyid1 in(1,8261,5561) and b.field22 is not null and b.field31 is not null
+                     and b.field32 !='065'
+                     and d.datatype =  'POSID'
+                     and b.field32 in
+       				<foreach collection="list" item="zjid" index="index" open="(" close=")" separator=",">
+					  #{zjid}
+					</foreach>
+				
+   </select>
+   
+       
+        <select id="queryAllZJ" resultMap="getAllPeople" resultType ="java.util.List" >
+               select *from (select  CNAME  name,NO id from cus_wl_basedata@ehr  where datatype =  'POSID') where id !='065'
+     </select>
+     
+</mapper>

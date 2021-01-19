@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tony</groupId>
+    <artifactId>com.xiaour.spring.boot</artifactId>
+    <version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging> 
+    <!-- 继承父包,此包会添加依赖,spring用到的核心包 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+
+    <dependencies>
+    	<!-- lombook开始 -->
+		<dependency>    
+    		<groupId>org.projectlombok</groupId>    
+    		<artifactId>lombok</artifactId>
+		</dependency>
+	<!-- lombook结束 -->
+     <!--web全栈开发-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!--使用外部tomcat需要把内置的tomcat排除-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!--添加springboot-tomcat scope必须时 provided-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--  -->
+    
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- 热部署 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+        <dependency>  
+		    <groupId>org.springframework.boot</groupId>  
+		    <artifactId>spring-boot-configuration-processor</artifactId>  
+		    <optional>true</optional>  
+		</dependency>  
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-redis</artifactId>
+		    <version>1.3.8.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.mybatis.spring.boot</groupId>
+		    <artifactId>mybatis-spring-boot-starter</artifactId>
+		    <version>1.3.0</version>
+		</dependency>
+		
+		<dependency>  
+            <groupId>com.alibaba</groupId>  
+            <artifactId>druid</artifactId>  
+            <version>1.0.19</version>  
+        </dependency>
+          
+        <dependency>  
+            <groupId>mysql</groupId>  
+            <artifactId>mysql-connector-java</artifactId>  
+        </dependency> 
+        
+        <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>3.7.5</version>
+    </dependency>
+        
+        <!-- javax -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency> 
+
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+		
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    </dependency>
+		
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.31</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.5</version>
+		</dependency>
+		
+		<dependency>  
+            <groupId>org.apache.httpcomponents</groupId>  
+            <artifactId>httpclient</artifactId>  
+        </dependency>  
+  
+        <dependency>  
+            <groupId>org.apache.httpcomponents</groupId>  
+            <artifactId>httpmime</artifactId>  
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+<dependency>
+	<groupId>com.orcle</groupId>
+	<artifactId>ojdbc6</artifactId>
+	<version>11.2.0.3</version>
+</dependency>
+<!-- 这里使用的是JPA包，也可使用JDBC包进行 -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+
+
+<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+<dependency>
+    <groupId>cn.hutool</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>5.2.3</version>
+</dependency>
+
+
+<dependency>
+    <groupId>org.apache.axis</groupId>
+    <artifactId>axis</artifactId>
+    <version>1.4</version>
+</dependency>
+<dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils</artifactId>
+    <version>1.7.0</version>
+</dependency>
+<dependency>
+    <groupId>commons-collections</groupId>
+    <artifactId>commons-collections</artifactId>
+    <version>3.1</version>
+</dependency>
+<dependency>
+    <groupId>commons-lang</groupId>
+    <artifactId>commons-lang</artifactId>
+    <version>2.5</version>
+</dependency>
+<dependency>
+    <groupId>commons-logging</groupId>
+    <artifactId>commons-logging</artifactId>
+    <version>1.2</version>
+</dependency>
+<dependency>
+    <groupId>commons-discovery</groupId>
+    <artifactId>commons-discovery</artifactId>
+    <version>0.5</version>
+</dependency>
+<dependency>
+    <groupId>javax</groupId>
+    <artifactId>wsdl4j</artifactId>
+    <version>1.6.3</version>
+</dependency>
+<dependency>
+    <groupId>net.sf</groupId>
+    <artifactId>json-lib</artifactId>
+    <version>2.1</version>
+</dependency>
+<dependency>
+    <groupId>net.sf.ezmorph</groupId>
+    <artifactId>ezmorph</artifactId>
+    <version>1.0.3</version>
+</dependency>
+<dependency>
+    <groupId>org.apache</groupId>
+    <artifactId>commons.fileupload</artifactId>
+    <version>1.3.1</version>
+</dependency>
+ <!-- swagger -->
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>2.5.0</version>
+    </dependency>
+    <!-- swagger-ui -->
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>2.5.0</version>
+    </dependency>
+    
+ <dependency>
+        <groupId>axis</groupId>
+        <artifactId>axis-jaxrpc</artifactId>
+        <version>1.4</version>
+    </dependency>
+    <!--JWT  -->  
+    <dependency>
+        <groupId>java</groupId>
+        <artifactId>jwt</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>java</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>0.7.0</version>
+    </dependency>
+    <!-- spring-security begin-->
+
+<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>3.2.5.RELEASE</version>
+</dependency>
+
+<!--定时任务动态配置jar开始  -->
+   <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <version>2.3.0</version>
+            <artifactId>quartz</artifactId>
+        </dependency>
+      <dependency>
+            <groupId>com.baomidou</groupId>
+            <version>3.2.0</version>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>  
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <version>3.2.0</version>
+            <artifactId>mybatis-plus-core</artifactId>
+        </dependency>  
+        
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <version>3.2.0</version>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>  
+        
+        
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <version>3.2.0</version>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>  
+        
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <version>3.2.0</version>
+            <artifactId>mybatis-plus-extension</artifactId>
+        </dependency>  
+        
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <version>5.1.4</version>
+            <artifactId>pagehelper</artifactId>
+        </dependency>  
+        
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <version>5.1.4</version>
+            <artifactId>pagehelper</artifactId>
+        </dependency>  
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <version>1.18.2</version>
+            <artifactId>lombok</artifactId>
+        </dependency>  
+<!--定时任务动态配置jar结束  -->
+
+
+      <!-- spring-security end-->
+    
+    <!-- https://mvnrepository.com/artifact/ch.ethz.ganymed/ganymed-ssh2 -->
+<!-- https://mvnrepository.com/artifact/ch.ethz.ganymed/ganymed-ssh2 -->
+<dependency>
+    <groupId>ch.ethz.ganymed</groupId>
+    <artifactId>ganymed-ssh2</artifactId>
+    <version>build210</version>
+</dependency>
+
+    
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.3.1</version>
+</dependency>
+    
+    
+    <!-- https://mvnrepository.com/artifact/ant/ant -->
+<dependency>
+    <groupId>ant</groupId>
+    <artifactId>ant</artifactId>
+    <version>1.6.5</version>
+</dependency>
+    
+    </dependencies>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <build>
+    	<finalName>oloDingDing</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

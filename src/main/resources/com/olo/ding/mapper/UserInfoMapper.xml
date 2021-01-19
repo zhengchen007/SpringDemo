@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.olo.ding.entity.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+ 	<result column="space" property="space" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" resultType ="map" parameterType="java.lang.Integer" >
+    select * from user_info where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="test" resultMap="BaseResultMap" resultType ="map" parameterType="java.lang.Integer">
+    select space from formtable_main_621_dt7 where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+</mapper>

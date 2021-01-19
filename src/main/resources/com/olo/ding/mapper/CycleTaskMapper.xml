@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.CycleTaskMapper" >
+  <resultMap id="getCycleTaskForm" type="com.olo.ding.entity.TaskDistributeEntity" >
+    <id column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="requestId" property="requestId" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="rwkssj" property="rwkssj" jdbcType="VARCHAR" />
+    <result column="rwksrq" property="rwksrq" jdbcType="VARCHAR" />
+ 	<result column="cfzq" property="cfzq" jdbcType="VARCHAR" />
+ 	<result column="rwjssj" property="rwjssj" jdbcType="VARCHAR" />
+ 	<result column="rwjsrq" property="rwjsrq" jdbcType="VARCHAR" />
+ 	<result column="rwmc" property="rwmc" jdbcType="VARCHAR" />
+ 	<result column="rwly" property="rwly" jdbcType="VARCHAR" />
+ 	<result column="cjr" property="cjr" jdbcType="VARCHAR" />
+ 	<result column="zxr" property="zxr" jdbcType="VARCHAR" />
+ 	<result column="jdr" property="jdr" jdbcType="VARCHAR" />
+ 	<result column="xzr" property="xzr" jdbcType="VARCHAR" />
+ 	<result column="rwfj" property="rwfj" jdbcType="VARCHAR" />
+ 	<result column="userId" property="userId" jdbcType="INTEGER" />
+ 	<result column="rwnrStr" property="rwnrStr" jdbcType="VARCHAR" />
+ 	<result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+ 	<result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+ 	<result column="cfzq" property="cfzq" jdbcType="VARCHAR" />
+ 	<result column="sfgd" property="sfgd" jdbcType="VARCHAR" />
+ 	<result column="cfsj" property="cfsj" jdbcType="VARCHAR" />
+ 	<result column="rwfjdz" property="rwfjdz" jdbcType="VARCHAR" />
+ 	<result column="currentNode" property="currentNode" jdbcType="VARCHAR" />
+ 	<result column="taskName" property="taskName" jdbcType="VARCHAR" />
+ 	<result column="tqzz" property="tqzz" jdbcType="VARCHAR" />
+ 	<result column="itemTime" property="itemTime" jdbcType="VARCHAR" />
+ 	<result column="zxrfjdz" property="zxrfjdz" jdbcType="VARCHAR" />
+ 	<result column="jdrfjdz" property="jdrfjdz" jdbcType="VARCHAR" />
+ 	<result column="zxryj" property="zxryj" jdbcType="VARCHAR" />
+ 	<result column="jdryj" property="jdryj" jdbcType="VARCHAR" />
+ 	<result column="zyyqscStr" property="zyyqscStr" jdbcType="VARCHAR" />
+ 	<result column="beginTimeStr" property="beginTimeStr" jdbcType="VARCHAR" />
+ 	<result column="periods" property="periods" jdbcType="VARCHAR" />
+ 	<result column="cycleStartDate" property="cycleStartDate" jdbcType="VARCHAR" />
+ 	<result column="zqywcjsj" property="zqywcjsj" jdbcType="VARCHAR" />
+ 	<result column="dyckssj" property="dyckssj" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="getTriggeredCount" type="com.olo.ding.entity.TaskDistributeEntity" >
+  	<result column="triggeredCount" property="triggeredCount" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   
+   <resultMap id="getTaskListMap" type="com.olo.ding.entity.TaskDistributeEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+     <result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskId" jdbcType="VARCHAR" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResourceName" property="taskResourceName" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+ 	<result column="cfzq" property="cfzq" jdbcType="VARCHAR" />
+ 	<result column="cfzqName" property="cfzqName" jdbcType="VARCHAR" />
+ 	<result column="tqzz" property="tqzz" jdbcType="VARCHAR" />
+ 	<result column="rwfjdz" property="rwfjdz" jdbcType="VARCHAR" />
+ 	<result column="rwnrStr" property="rwnrStr" jdbcType="VARCHAR" />
+ 	<result column="periods" property="periods" jdbcType="VARCHAR" />
+  </resultMap>
+  
+     <resultMap id="modifyDeatil" type="com.olo.ding.entity.ModyftEntity" >
+     <result column="zxr" property="zxr" jdbcType="VARCHAR" />
+    <result column="jdr" property="jdr" jdbcType="VARCHAR" />
+    <result column="xzr" property="xzr" jdbcType="VARCHAR" />
+    <result column="cfzq" property="cfzq" jdbcType="INTEGER" />
+ 	<result column="rwksrq" property="rwksrq" jdbcType="VARCHAR" />
+ 	<result column="rwkssj" property="rwkssj" jdbcType="VARCHAR" />
+ 	<result column="rwjsrq" property="rwjsrq" jdbcType="VARCHAR" />
+ 	<result column="rwjssj" property="rwjssj" jdbcType="VARCHAR" />
+ 	<result column="rwnr" property="rwnr" jdbcType="VARCHAR" />
+ 	<result column="rwfj" property="rwfj" jdbcType="VARCHAR" />
+ 	<result column="rwmc" property="rwmc" jdbcType="VARCHAR" />
+ 	
+ 	<result column="positiveType" property="positiveType" jdbcType="VARCHAR" />
+ 	<result column="zyyqsc" property="zyyqsc" jdbcType="VARCHAR" />
+ 	<result column="cycleStartDate" property="cycleStartDate" jdbcType="VARCHAR" />
+ 	<result column="zykssj" property="zykssj" jdbcType="VARCHAR" />
+ 	<result column="periods" property="periods" jdbcType="VARCHAR" />
+ 	<result column="zyyqscJson" property="zyyqscJson" jdbcType="VARCHAR" />
+ 	<result column="zykssjJson" property="zykssjJson" jdbcType="VARCHAR" />
+ 	<result column="intervalNum" property="intervalNum" jdbcType="VARCHAR" />
+ 	<result column="jduuid" property="jduuid" jdbcType="VARCHAR" />
+  </resultMap>
+   
+     
+   <resultMap id="queryJobName" type="com.olo.ding.entity.TaskDistributeEntity" >
+     <result column="jobName" property="jobName" jdbcType="VARCHAR" />
+     <result column="zzJobName" property="zzJobName" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="getCycleTaskForm" resultMap="getCycleTaskForm" resultType ="java.util.List" parameterType="Map" >
+  		       select a.zyyqsc zyyqscStr,a.zykssj beginTimeStr,a.periods,a.cycleStartDate,a.rwfj rwfjdz,a.rwnr rwnrStr,a.tqzz,a.rwmc,a.zxr,hr2.lastname jdr,hr3.lastname cjr, a.xzr xzr,decode(a.cfzq,'0','每天','1','每周','2','每月','3','季度')cfzq,
+                 a.rwksrq rwksrq,a.rwkssj,a.rwjsrq rwjsrq,a.rwjssj,a.zqywcjsj,a.dyckssj,decode(a.cfzq,'0',decode(a.sjjg,'',0,a.sjjg),'1',decode(a.sjjg,'',0,a.sjjg/7),'2',a.sjjg)   intervalNum
+                 from uf_olo_ding_task a
+                 left join hrmresource hr2 on a.jdr = hr2.id
+                 left join hrmresource hr3 on a.cjr = hr3.id 
+    			where a.id = #{taskId}
+  </select>
+  
+   
+       <!--周期要务列表查询开始  -->
+     <select id="getCycleTaskDistributeList" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map" >
+  	select a.periods,a.rwfj rwfjdz,a.rwnr rwnrStr,a.tqzz,a.cfzq,a.taskCreatedate,a.id taskId,a.rwmc taskName,'周期要务' taskResourceName,hrm_1.lastname taskDistributor,a.zxr taskReceiver,decode(a.cfzq,'0','按天','1','按周','2','按月','3','按季度')cfzqName
+  	from uf_olo_ding_task a
+	left join hrmresource hrm_1 on a.cjr = hrm_1.id
+	where
+	a.rwly=2
+	and
+	hrm_1.id =  #{userId,jdbcType=INTEGER}
+    <if test="type == 1">
+    	and  a.tqzz = '0'
+    </if>
+     order by (modedatacreatedate || ' ' || modedatacreatetime) desc
+  </select>
+  <!--周期要务列表查询结束 -->
+   
+   <select id="getCycleTaskList" resultMap="getCycleTaskForm" resultType ="java.util.List" parameterType="Map" >
+    	select distinct a.zxryj,a.jdryj,a.zxr,a.zxrfjdz,a.jdrfjdz,wc.receivedate itemTime,a.requestId,a.rwfjdz,c.nodename currentNode from formtable_main_836 a
+    	 left join workflow_requestbase wr on a.requestid = wr.requestid
+        left join WORKFLOW_CURRENTOPERATOR wc on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+    	left join workflow_nodebase c   on wr.currentnodeid = c.id  where a.rwjmid = #{taskId}
+    	order by wc.receivedate desc
+  </select>
+  
+   <!--周期要务已经触发的日期查询，按从时间从大到小排序  -->
+   <select id="getItemTime" resultMap="getCycleTaskForm" resultType ="java.util.List" parameterType="Map" >
+    	select distinct wc.receivedate itemTime from formtable_main_836 a
+    	 left join workflow_requestbase wr on a.requestid = wr.requestid
+        left join WORKFLOW_CURRENTOPERATOR wc on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+    	left join workflow_nodebase c   on wr.currentnodeid = c.id  where a.rwjmid = #{taskId}
+    	order by wc.receivedate desc
+  </select>
+   
+   
+   <!-- 任务内容查询 -->
+    <select id="getCycleTaskRwnr" resultMap ="getCycleTaskForm" resultType ="java.util.List" parameterType="Map" >
+    	select rwnr rwnrStr from formtable_main_836_dt1
+    	where mainid = (select id from formtable_main_836 where requestId = #{taskId})
+  </select>
+   
+    <!--计算已经触发的周期任务个数  -->
+      <select id="getTriggeredCount" resultMap="getTriggeredCount" resultType ="java.util.List" parameterType="Map" >
+		select count(*)triggeredCount from (select distinct rwksrq from formtable_main_836 where rwjmid = #{rwjmId})
+  </select>
+    
+       <!--提前终止周期任务，更新表中的tqzz  -->
+      <update id="aheadofStop"   parameterType="Map" >
+		update uf_olo_ding_task set tqzz = '0' where id = #{id}
+  	</update>
+  	
+       <!--周期要务修改详情查询  -->
+        <select  id="modifyDeatil"  resultMap="modifyDeatil" resultType ="java.util.List"  parameterType="Map" >
+		 select zyyqscJson,zykssjJson,positiveType,zyyqsc,zykssj,rwmc,periods,cycleStartDate,'2' rwly,zxr,jdr,xzr,cfzq,rwksrq,rwkssj,rwjsrq,rwjssj,rwnr,rwfj,decode(cfzq,'0',decode(sjjg,'',0,sjjg),'1',decode(sjjg,'',0,sjjg/7),'2',sjjg)   intervalNum
+		 ,jduuid
+		  from uf_olo_ding_task
+         where id = #{taskId}
+  	</select>
+      
+      <!--修改周期要务  -->
+        <update id="modify"  parameterType="Map" >
+		update uf_olo_ding_task set rwmc=#{rwmc},zxr=#{zxr},jdr=#{jdr},xzr=#{xzr},cfzq=#{cfzq},taskCreatedate=#{taskCreatedate},
+		rwksrq=#{rwksrq},rwkssj=#{rwkssj},rwjsrq=#{rwjsrq},rwjssj=#{rwjssj},rwnr=#{rwnr},rwfj=#{rwfj},
+		zykssjJson=#{zykssjJson,jdbcType=VARCHAR},zyyqscJson=#{zyyqscJson,jdbcType=VARCHAR},periods=#{periods,jdbcType=VARCHAR},zykssj=#{zykssj,jdbcType=VARCHAR},zyyqsc=#{zyyqsc,jdbcType=VARCHAR},
+		cycleStartDate=#{cycleStartDate,jdbcType=VARCHAR},cron=#{cron,jdbcType=VARCHAR},positiveType=#{positiveType,jdbcType=VARCHAR},dyckssj=#{dyckssj},
+		sjjg=#{sjjg}
+		where id = #{id}
+  	</update>
+ 
+        
+         <!--查询周期要务中的jobName和 -->
+        <select  id="queryJobName"  resultMap="queryJobName" resultType ="java.util.List"  parameterType="Map" >
+		select jobName,zzJobname from uf_olo_ding_task where id = #{taskId}
+  	</select>
+  	
+          <!--更新jobname和zzjobname  -->
+        <update id="updateJob"  parameterType="Map" >
+		update uf_olo_ding_task set jobName = #{jobName},zzJobname = #{zzJobname} where id = #{taskId}
+  	</update>
+  	
+           <!--jduuid和zqywuuid -->
+        <update id="updateJduuid"  parameterType="Map" >
+		update uf_olo_ding_task set jduuid = #{jduuid},zqywuuid = #{zqywuuid} where id = #{id}
+  	</update>
+</mapper>

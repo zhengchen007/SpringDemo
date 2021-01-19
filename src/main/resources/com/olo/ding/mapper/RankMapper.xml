@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.RankMapper" >
+  <resultMap id="getRankListMap" type="com.olo.ding.entity.HomePageEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+  </resultMap>
+   
+   <resultMap id="pgdList" type="com.olo.ding.entity.PgdEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+ 	<result column="dealTime" property="dealTime" jdbcType="VARCHAR" />
+ 	<result column="requestnamenew" property="requestNameNew" jdbcType="VARCHAR" />
+ 	<result column="operatedate" property="operateDate" jdbcType="VARCHAR" />
+ 	<result column="operatetime" property="operateTime" jdbcType="VARCHAR" />
+ 	<result column="workflowname" property="workflowName" jdbcType="VARCHAR" />
+ 	<result column="nodename" property="nodeName" jdbcType="VARCHAR" />
+ 	<result column="operateid" property="operateId" jdbcType="VARCHAR" />
+ 	<result column="receivedate" property="receiveDate" jdbcType="VARCHAR" />
+ 	<result column="receivetime" property="receiveTime" jdbcType="VARCHAR" />
+ 	<result column="czr" property="czr" jdbcType="VARCHAR" />
+ 	<result column="pf" property="pf" jdbcType="INTEGER" />
+ 	<result column="jqts" property="jqts" jdbcType="INTEGER" />
+ 	<result column="departmentId" property="departmentId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="getTaskScore" type="com.olo.ding.entity.RankEntity" >
+    <result column="taskScore" property="taskScore" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="departmentId" property="departmentId" jdbcType="VARCHAR" />
+ 	<result column="rwjzrq" property="rwjzrq" jdbcType="VARCHAR" />
+ 	<result column="operatedate" property="operatedate" jdbcType="VARCHAR" />
+ 	<result column="operatetime" property="operatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="department" type="com.olo.ding.entity.RankEntity" >
+    <result column="departmentId" property="departmentId" jdbcType="INTEGER" />
+ 	<result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="peopleName" type="com.olo.ding.entity.RankEntity" >
+    <result column="lastName" property="lastName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="taskCount" type="com.olo.ding.entity.RankEntity" >
+    <result column="personalDealTaskCount" property="personalDealTaskCount" jdbcType="VARCHAR" />
+  </resultMap>
+  
+     <resultMap id="pgdCount" type="com.olo.ding.entity.PgdEntity" >
+    <result column="personalPgdCount" property="personalPgdCount" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <select id="getTaskRank" resultMap="getTaskScore" resultType ="java.util.List" parameterType="Map" >
+  		select distinct hrm.departmentId,a.zxr taskReceiver,a.taskScore,a.rwjzrq,wc.operatedate,wc.operatetime  from formtable_main_836 a
+        left join hrmresource hrm on a.zxr = hrm.id
+        left join WORKFLOW_CURRENTOPERATOR wc  on a.requestid = wc.requestid
+        left join cus_fielddata cus on a.zxr = cus.id
+    where taskResource !=3 and zxr is not null
+    and nodeid in(90552)
+    and field32 in(select zjbm from (select  CNAME  zjmc,NO zjbm from cus_wl_basedata@ehr  where datatype =  'POSID' and NO !='065'))
+    and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+    and hrm.departmentId is not null
+    
+  </select>
+  
+  <select id="getPgdRank" resultMap="pgdList" resultType ="java.util.List" parameterType="Map" >
+			 select * from (select distinct hrm.departmentId,wc.requestid,utf1.pf,utf1.dealTime,wre.requestname requestnamenew,decode(wc.isremark,'0','',wc.operatedate)operatedate,decode(wc.isremark,'0','',wc.operatetime)operatetime,
+					                  wb.workflowname,wn.nodename,wc.id operateid,wn.id nodeid,wc.receivedate,wc.receivetime,                                                                                                
+									  wc.userid czr							
+					                  from WORKFLOW_CURRENTOPERATOR wc    
+					                  left join workflow_nodegroup wng on wc.nodeid = wng.nodeid
+					                  left join workflow_groupdetail wg on wng.id = wg.groupid
+					                  left join workflow_base wb on wb.id = wc.workflowid
+					                  left join workflow_nodebase wn on wn.id = wc.nodeid
+					                  left join uf_workflow_standar uft on wb.id = uft.id   
+									   left join uf_workflow_standar_dt1 utf1 on utf1.currentnode = wn.id      
+					                  left join workflow_requestlog wr on wc.requestid = wr.requestid
+					                  left join workflow_requestbase wre on wc.requestid = wre.requestid  
+					                  left join hrmresource hrm on wc.userid = hrm.id
+					                  left join cus_fielddata cus on wc.userid = cus.id
+					                  where wc.workflowid in (select workflowid from uf_workflow_standar) 
+					                  and wc.nodeid in (select currentnode from uf_workflow_standar_dt1)
+					                  and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay} 
+					                  and field32 in(select zjbm from (select  CNAME  zjmc,NO zjbm from cus_wl_basedata@ehr  where datatype =  'POSID' and NO !='065'))
+                                      )a
+					                  where  
+                                      a.operatedate is not null 
+      
+  </select>
+  
+   <select id="getHolidayCount" resultMap="pgdList" resultType ="java.util.List" parameterType="Map" >
+       	select count_Holiday(#{beginTime},#{endTime})jqts from dual
+  </select>
+  
+   <select id="getDepIdAndName" resultMap="department"  parameterType="Map" >
+       	 select  id departmentId,departmentname departmentName from HrmDepartment   
+          start with id = (select departmentid from hrmresource where id =  #{userId}) 
+          connect by  prior id=supdepid
+  </select>
+   
+    <select id="getPeopleName" resultMap="peopleName"  parameterType="Map" >
+       	select lastName from hrmresource where id = #{userId}
+  </select>
+  
+      <select id="getPersonalPgd" resultMap="pgdList" resultType ="java.util.List"  parameterType="Map" >
+       	 select * from (select distinct hrm.departmentId,wc.requestid,utf1.pf,utf1.dealTime,wre.requestname requestnamenew,decode(wc.isremark,'0','',wc.operatedate)operatedate,decode(wc.isremark,'0','',wc.operatetime)operatetime,
+					                  wb.workflowname,wn.nodename,wc.id operateid,wn.id nodeid,wc.receivedate,wc.receivetime,                                                                                                
+									  wc.userid czr							
+					                  from WORKFLOW_CURRENTOPERATOR wc    
+					                  left join workflow_nodegroup wng on wc.nodeid = wng.nodeid
+					                  left join workflow_groupdetail wg on wng.id = wg.groupid
+					                  left join workflow_base wb on wb.id = wc.workflowid
+					                  left join workflow_nodebase wn on wn.id = wc.nodeid
+					                  left join uf_workflow_standar uft on wb.id = uft.id   
+									   left join uf_workflow_standar_dt1 utf1 on utf1.currentnode = wn.id      
+					                  left join workflow_requestlog wr on wc.requestid = wr.requestid
+					                  left join workflow_requestbase wre on wc.requestid = wre.requestid  
+					                  left join hrmresource hrm on wc.userid = hrm.id
+					                  left join cus_fielddata cus on wc.userid = cus.id
+					                  where wc.workflowid in (select workflowid from uf_workflow_standar) 
+					                  and wc.nodeid in (select currentnode from uf_workflow_standar_dt1)
+					                  and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+					                  and field32 in(select zjbm from (select  CNAME  zjmc,NO zjbm from cus_wl_basedata@ehr  where datatype =  'POSID' and NO !='065'))
+                                      )a
+					                  where  
+                                      a.operatedate is not null 
+                                      and czr = #{userId}
+  </select>
+  
+      
+      
+      <select id="getPersonalPgdCount" resultMap="pgdCount" resultType ="java.util.List"  parameterType="Map" >
+        select count(*)personalPgdCount from (select distinct wc.requestid,wc.userid czr
+					                  from WORKFLOW_CURRENTOPERATOR wc    
+					                  left join workflow_nodegroup wng on wc.nodeid = wng.nodeid
+					                  left join workflow_groupdetail wg on wng.id = wg.groupid
+					                  left join workflow_base wb on wb.id = wc.workflowid
+					                  left join workflow_nodebase wn on wn.id = wc.nodeid
+					                  left join uf_workflow_standar uft on wb.id = uft.id   
+									   left join uf_workflow_standar_dt1 utf1 on utf1.currentnode = wn.id      
+					                  left join workflow_requestlog wr on wc.requestid = wr.requestid
+					                  left join workflow_requestbase wre on wc.requestid = wre.requestid  
+					                  left join hrmresource hrm on wc.userid = hrm.id
+					                  where wc.workflowid in (select workflowid from uf_workflow_standar) 
+					                  and wc.nodeid in (select currentnode from uf_workflow_standar_dt1)
+					                  and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+                                      )a
+					                  where  
+    								  a.czr = #{userId}
+                                      
+  </select>
+    
+      <select id="getPersonalTask" resultMap="getTaskScore" resultType ="java.util.List" parameterType="Map" >
+       		select hrm.departmentId,a.zxr taskReceiver,a.taskScore,a.rwjzrq,wc.operatedate,wc.operatetime  from formtable_main_836 a
+       		left join WORKFLOW_CURRENTOPERATOR wc  on a.requestid = wc.requestid
+        left join hrmresource hrm on a.zxr = hrm.id
+    where taskResource !=3 and zxr is not null
+     and nodeid in(90552)
+     and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+    and hrm.departmentId is not null
+    and a.zxr = #{userId}
+  </select>
+  
+      
+  <select id="getPersonalTaskCount" resultMap="taskCount" resultType ="java.util.List" parameterType="Map" >
+      <!--   select  sum(a.taskScore)personalDealTaskCount from (select  distinct sum(a.taskScore)taskScore,a.id from formtable_main_836 a
+        left join WORKFLOW_CURRENTOPERATOR wc  on a.requestid = wc.requestid
+        left join hrmresource hrm on a.zxr = hrm.id
+    where taskResource !=3 and zxr is not null
+    and hrm.departmentId is not null
+    and wc.nodeid = 90549
+    and wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+    and a.zxr = #{userId}
+     group by a.id
+    )a 
+     -->
+    
+    select count(*)personalDealTaskCount from (select distinct a.id from formtable_main_836 a 
+    left join WORKFLOW_CURRENTOPERATOR wc  on a.requestid = wc.requestid
+    where wc.receivedate &lt;=#{endDay} and  wc.receivedate &gt;= #{begintDay}
+    and a.zxr = #{userId})
+  </select>
+  
+      
+      
+      
+</mapper>

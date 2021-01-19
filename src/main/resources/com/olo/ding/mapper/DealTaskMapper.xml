@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.DealTaskMapper" >
+  <resultMap id="getTaskDetail" type="com.olo.ding.entity.DealTaskEntity" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="zxr" property="zxr" jdbcType="VARCHAR" />
+    <result column="jdr" property="jdr" jdbcType="VARCHAR" />
+    <result column="xzr" property="xzr" jdbcType="VARCHAR" />
+ 	<result column="rwksrq" property="rwksrq" jdbcType="VARCHAR" />
+ 	<result column="rwjzrq" property="rwjzrq" jdbcType="VARCHAR" />
+ 	<result column="rwfjdzStr" property="rwfjdzStr" jdbcType="VARCHAR" />
+ 	<result column="nodeId" property="nodeId" jdbcType="VARCHAR" />
+ 	<result column="zxrfjdzStr" property="zxrfjdzStr" jdbcType="VARCHAR" />
+ 	<result column="jdrfjdzStr" property="jdrfjdzStr" jdbcType="VARCHAR" />
+ 	<result column="zxrbz" property="zxrbz" jdbcType="VARCHAR" />
+ 	<result column="jdrbz" property="jdrbz" jdbcType="VARCHAR" />
+ 	<result column="jdrId" property="jdrId" jdbcType="VARCHAR" />
+ 	<result column="rwnrStr" property="rwnrStr" jdbcType="VARCHAR" />
+ 	<result column="lastSubmitTime" property="lastSubmitTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="getTaskDetailMx" type="com.olo.ding.entity.DealTaskEntity" >
+    <result column="mxRwnr" property="mxRwnr" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="getPgdDetail" type="com.olo.ding.entity.DealTaskEntity" >
+    <result column="requestName" property="requestName" jdbcType="VARCHAR" />
+    <result column="lcmc" property="lcmc" jdbcType="VARCHAR" />
+    <result column="nodeName" property="nodeName" jdbcType="VARCHAR" />
+    <result column="receiveTime" property="receiveTime" jdbcType="VARCHAR" />
+    <result column="operateTime" property="operateTime" jdbcType="VARCHAR" />
+ 	<result column="dealTime" property="dealTime" jdbcType="VARCHAR" />
+ 	<result column="standardTime" property="standardTime" jdbcType="VARCHAR" />
+ 	<result column="nodeId" property="nodeId" jdbcType="VARCHAR" />
+ 	<result column="cslc" property="cslc" jdbcType="VARCHAR" />
+ 	<result column="jdczr" property="jdczr" jdbcType="VARCHAR" />
+ 	<result column="requestId" property="requestId" jdbcType="VARCHAR" />
+ 	<result column="taskResource" property="taskResource" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="queryAddr" type="com.olo.ding.entity.DealTaskEntity" >
+    	<result column="filerealPath" property="filerealPath" jdbcType="VARCHAR" />
+     	<result column="filePath" property="filePath" jdbcType="VARCHAR" />
+      	<result column="fileName" property="fileName" jdbcType="VARCHAR" />
+      	<result column="docid" property="docid" jdbcType="VARCHAR" />
+  </resultMap>
+  
+     <resultMap id="queryZxrfj" type="com.olo.ding.entity.DealTaskEntity" >
+    	<result column="zxrfj" property="zxrfj" jdbcType="VARCHAR" />
+    	<result column="jdrfj" property="jdrfj" jdbcType="VARCHAR" />
+  </resultMap>
+  
+      <resultMap id="isOverTime" type="com.olo.ding.entity.HomePageEntity" >
+	    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+	 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+	 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+	 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+	 	<result column="taskResourceName" property="taskResourceName" jdbcType="VARCHAR" />
+	 	<result column="operatedate" property="operatedate" jdbcType="VARCHAR" />
+	 	<result column="operatetime" property="operatetime" jdbcType="VARCHAR" />
+	 	<result column="operateDateAndTime" property="operateDateAndTime" jdbcType="VARCHAR" />
+  </resultMap>
+   
+   <select id="getTaskDetail" resultMap="getTaskDetail" resultType ="java.util.List" parameterType="Map" >
+  		       select a.jdr jdrId,wr.currentnodeid nodeId,a.id,a.name,a.zxr,hr1.lastname jdr,a.xzr,a.rwksrq,decode(a.newrwjzrq,'',a.rwjzrq,a.newrwjzrq) rwjzrq,a.rwfjdz rwfjdzStr,
+  		        (Select  operatetime From 
+(select requestid,(operatedate || ' ' ||operatetime)operatetime from WORKFLOW_CURRENTOPERATOR  where  nodeid='90550' and isremark =2 Order By (operatedate || ' ' ||operatetime) desc) 
+Where  requestid = a.requestid  and rownum=1) lastSubmitTime,
+  		       a.jdrfjdz jdrfjdzStr,a.jdryj jdrbz,
+  		       a.zxrfjdz zxrfjdzStr,a.zxryj zxrbz from formtable_main_836 a
+  		       left join workflow_requestbase wr on a.requestid = wr.requestid
+               left join WORKFLOW_CURRENTOPERATOR wc on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+               left join hrmresource hr1 on hr1.id = a.jdr
+  		       where a.requestid = #{requestId}
+  </select>
+  
+    <select id="getTaskDetailMx" resultMap="getTaskDetailMx" resultType ="java.util.List" parameterType="Map" >
+  		       select rwnr mxRwnr from formtable_main_836_dt1 where mainid = #{mainid}
+  </select>
+  
+    <select id="getPgdDetail" resultMap="getPgdDetail" resultType ="java.util.List" parameterType="Map" >
+  		       select '4' taskResource,a.requestId,hrm1.lastname jdczr,wr1.requestname cslc,wr.currentnodeid nodeId,wr.requestName,a.lcmc,a.nodeName,a.receiveTime,a.operateTime,a.dealTime,a.standardTime from formtable_main_790 a
+                  left join workflow_requestbase wr on a.requestid = wr.requestid
+              	  left join WORKFLOW_CURRENTOPERATOR wc on wr.currentnodeid=wc.nodeid and wc.requestid = a.requestid
+              	  left join workflow_requestbase wr1 on a.cslc = wr1.requestid 
+              	  left join hrmresource hrm1 on a.nodepeople=hrm1.id
+                  where a.requestid = #{requestId}
+  </select>
+  
+    
+     <select id="queryAddr" resultMap="queryAddr" resultType ="java.util.List" parameterType="Map" >
+  		      select a.filerealpath filepath,a.imagefilename filename,b.docid from imagefile a 
+					 left join docimagefile b on a.imagefileid = b.imagefileid where a.imagefileid 
+					 in
+					 (
+					  select imagefileid from docimagefile where docid in 
+					 <foreach collection="addr" item="addrStr" index="index" open="(" close=")" separator=","> 
+					     #{addrStr}
+					     </foreach>
+					     )
+					
+  </select>
+  
+     
+     
+     <select id="queryNotCfDetail" resultMap="getTaskDetail" resultType ="java.util.List" parameterType="Map" >
+  		  select hr1.lastname jdr,'' nodeid,a.id,a.rwmc name,a.zxr,(a.rwksrq || ' '||a.rwkssj) rwksrq  ,(a.rwjsrq || ' '||a.rwjssj) rwjzrq,a.rwfj rwfjdzStr,a.rwnr RwnrStr,a.xzr,
+    '' jdrfjdzStr,'' jdrbz,
+    '' zxrfjdzStr,'' zxrbz
+    from uf_olo_ding_task a
+    left join hrmresource hr1 on a.jdr = hr1.id
+    where a.id = #{taskId}
+					
+  </select>
+       <select id="queryZxrfj" resultMap="queryZxrfj" resultType ="java.util.List" parameterType="Map" >
+  		   select zxrfj ,jdrfj from formtable_main_836 where requestId = #{requestId} 
+  </select>
+  
+        <select id="isOverTime" resultMap="isOverTime" resultType ="java.util.List" parameterType="Map" >
+  		         select distinct  
+  	    wr.requestname, wr.lastoperatedate operatedate,wr.lastoperatetime operatetime, 
+        (Select  operatetime From 
+		(select requestid,(operatedate || ' ' ||operatetime)operatetime from WORKFLOW_CURRENTOPERATOR  where  nodeid='90550' and isremark =2 Order By (operatedate || ' ' ||operatetime) desc) 
+		Where  requestid = a.requestid  and rownum=1) operateDateAndTime,                 
+  	    decode(a.newrwjzrq,'',a.rwjzrq,a.newrwjzrq) taskDemandTime ,
+  	    a.requestid,a.name taskName,decode(a.taskResource,'0','上下级','1','项目专项','2','周期要务','3','会议')taskResourceName,
+        a.taskResource,
+        hrm_1.lastname taskDistributor,hrm_2.lastname taskReceiver from formtable_main_836 a
+        left join workflow_requestbase wr on a.requestid = wr.requestid
+        left join WORKFLOW_CURRENTOPERATOR wc 
+    	on wc.requestid = a.requestid
+        left join hrmresource hrm_1 on a.re_cjr = hrm_1.id
+        left join hrmresource hrm_2 on a.zxr = hrm_2.id
+        where wc.requestid = #{requestId}
+     	and wc.isremark !=0
+  </select>
+          
+     <update id="updateZxrbzAndfj"  parameterType="Map" >
+  		     update formtable_main_836 set zxryj = #{zxrbz},zxrfjdz=#{zxrfjdz} where requestId = #{requestId}
+  </update>
+  
+      <update id="updateJdrbzAndfj"  parameterType="Map" >
+  		     update formtable_main_836 set jdryj = #{jdryj},jdrfjdz=#{jdrfjdz} where requestId = #{requestId}
+  </update>
+  
+  
+      <update id="updatePgd"  parameterType="Map" >
+  		     update formtable_main_790 set thjl = #{thjl},csyy=#{csyy} where requestId = #{requestId}
+  </update>
+  
+      
+      <update id="update_formtable_main_836"  parameterType="Map" >
+  		     update formtable_main_836 set zxrfjdz = #{zxrfj}
+					 where requestid = #{requestId} 
+  </update>
+  
+       
+      <update id="update_formtable_main_836_jdrfj"  parameterType="Map" >
+  		     update formtable_main_836 set jdrfjdz = #{jdrfj}
+					 where requestid = #{requestId} 
+  </update>
+  
+        <update id="updateJzrq"  parameterType="Map" >
+  		   update formtable_main_836 set newrwjzrq = #{newJzrq} where requestid = #{requestId}
+  </update>
+  
+        <update id="updatezxrfj" parameterType="Map">
+            update formtable_main_836 set zxrfj = '' where requestId = #{requestId}
+            </update>
+            
+       <update id="updatejdrfj" parameterType="Map">
+           update formtable_main_836 set jdrfj = '' where requestId = #{requestId}
+       </update> 
+      
+</mapper>

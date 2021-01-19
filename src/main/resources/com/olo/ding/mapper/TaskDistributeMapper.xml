@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.olo.ding.mapper.TaskDistributeMapper" >
+  <resultMap id="getRankListMap" type="com.olo.ding.entity.HomePageEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+  </resultMap>
+   
+     <resultMap id="getTaskListMap" type="com.olo.ding.entity.HomePageEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="taskResource" property="taskResource" jdbcType="INTEGER" />
+ 	<result column="taskReceiver" property="taskReceiver" jdbcType="VARCHAR" />
+ 	<result column="taskDistributor" property="taskDistributor" jdbcType="VARCHAR" />
+ 	<result column="cutoffTime" property="cutoffTime" jdbcType="VARCHAR" />
+ 	<result column="operatedate" property="operatedate" jdbcType="VARCHAR" />
+ 	<result column="isFinished" property="isFinished" jdbcType="VARCHAR" />
+ 	<result column="taskName" property="taskName" jdbcType="VARCHAR" />
+ 	<result column="rwksrq" property="rwksrq" jdbcType="VARCHAR" />
+ 	<result column="rwjmId" property="rwjmId" jdbcType="VARCHAR" />
+ 	<result column="taskId" property="taskId" jdbcType="VARCHAR" />
+ 	<result column="operateDateAndTime" property="operateDateAndTime" jdbcType="VARCHAR" />
+ 	<result column="requestId" property="requestId" jdbcType="VARCHAR" />
+ 	<result column="receivetime" property="receivetime" jdbcType="VARCHAR" />
+ 	<result column="isPf" property="isPf" jdbcType="VARCHAR" />
+  </resultMap>
+  
+       <resultMap id="getNeedToCreateTask" type="com.olo.ding.entity.TaskDistributeEntity" >
+    <id column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="requestId" property="requestId" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskId" jdbcType="INTEGER" />
+    <result column="rwkssj" property="rwkssj" jdbcType="VARCHAR" />
+    <result column="rwksrq" property="rwksrq" jdbcType="VARCHAR" />
+ 	<result column="cfzq" property="cfzq" jdbcType="VARCHAR" />
+ 	<result column="rwjssj" property="rwjssj" jdbcType="VARCHAR" />
+ 	<result column="rwjsrq" property="rwjsrq" jdbcType="VARCHAR" />
+ 	<result column="rwmc" property="rwmc" jdbcType="VARCHAR" />
+ 	<result column="rwly" property="rwly" jdbcType="VARCHAR" />
+ 	<result column="cjr" property="cjr" jdbcType="VARCHAR" />
+ 	<result column="zxr" property="zxr" jdbcType="VARCHAR" />
+ 	<result column="jdr" property="jdr" jdbcType="VARCHAR" />
+ 	<result column="xzr" property="xzr" jdbcType="VARCHAR" />
+ 	<result column="rwfj" property="rwfj" jdbcType="VARCHAR" />
+ 	<result column="userId" property="userId" jdbcType="INTEGER" />
+ 	<result column="rwnrStr" property="rwnrStr" jdbcType="VARCHAR" />
+ 	<result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+ 	<result column="taskCreatedate" property="taskCreatedate" jdbcType="VARCHAR" />
+ 	<result column="rwkssj" property="rwkssj" jdbcType="VARCHAR" />
+ 	<result column="rwjssj" property="rwjssj" jdbcType="VARCHAR" />
+ 	<result column="cfzq" property="cfzq" jdbcType="VARCHAR" />
+ 	<result column="sfgd" property="sfgd" jdbcType="VARCHAR" />
+ 	<result column="cfsj" property="cfsj" jdbcType="VARCHAR" />
+ 	<result column="cron" property="cron" jdbcType="VARCHAR" />
+ 	<result column="sfwjd" property="sfwjd" jdbcType="VARCHAR" />
+ 	<result column="sfzx" property="sfzx" jdbcType="VARCHAR" />
+ 	<result column="dyckssj" property="dyckssj" jdbcType="VARCHAR" />
+ 	<result column="intervalNum" property="intervalNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="getTaskMx" type="com.olo.ding.entity.TaskDetailEntity" >
+    <id column="id" property="listId" jdbcType="INTEGER" />
+    <result column="mainId" property="mainId" jdbcType="INTEGER" />
+    <result column="rwnr" property="rwnr" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="getPeopleName" type="com.olo.ding.entity.TaskDetailEntity" >
+    <result column="lastname" property="lastname" jdbcType="INTEGER" />
+  </resultMap>
+  
+   <resultMap id="mx" type="com.olo.ding.entity.TaskDetailEntity" >
+    <result column="rwnr" property="rwnr" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="queryTaskId" type="com.olo.ding.entity.TaskDetailEntity" >
+    <result column="requestId" property="requestId" jdbcType="VARCHAR" />
+     <result column="id" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="getUserId" type="com.olo.ding.entity.TaskDistributeEntity" >
+    <result column="zxr" property="zxr" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="test" type="com.olo.ding.entity.Demo" >
+    <result column="testZd" property="testZd" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+   <select id="getUserId" resultMap="getUserId" resultType ="java.util.List">
+       	    select distinct zxr  from formtable_main_836 where zxr is not null
+  </select>
+  
+   
+     <select id="getTaskDistributeList" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map" >
+  	select distinct 
+  	  <if test="type == 0">
+     	0 isFinished,'0' isPf,
+    	</if>
+    	 <if test="type == 1">
+     	1 isFinished,
+    	</if>
+    	(select receivetime from (select (receivedate || ' ' || receivetime)  receivetime,requestid from WORKFLOW_CURRENTOPERATOR order by (receivedate || ' ' || receivetime) desc)where requestid = wc.requestid and rownum=1   )  receivetime,
+  	a.taskResource,a.name taskName,a.id taskId,wr.lastoperatedate,decode(a.newrwjzrq,'',a.rwjzrq,a.newrwjzrq) taskDemandTime ,a.requestid,a.name,(Select  operatetime From 
+(select requestid,(operatedate || ' ' ||operatetime)operatetime from WORKFLOW_CURRENTOPERATOR  where  nodeid='90550' and isremark =2 Order By (operatedate || ' ' ||operatetime) desc) 
+Where  requestid = a.requestid  and rownum=1) operateDateAndTime,           
+  	decode(a.taskResource,'0','上下级','1','项目专项','2','周期要务','3','会议')taskResourceName,hrm_1.lastname taskDistributor,hrm_2.lastname taskReceiver from formtable_main_836 a
+	left join WORKFLOW_CURRENTOPERATOR wc on a.requestid = wc.requestid
+	left join workflow_requestbase wr on a.requestid = wr.requestid
+	left join hrmresource hrm_1 on a.re_cjr = hrm_1.id
+	left join hrmresource hrm_2 on a.zxr = hrm_2.id
+	where wr.currentnodeid in
+	<foreach collection="nodeId" item="id" index="index" open="(" close=")" separator=",">
+	  #{id}
+	</foreach>
+	 and
+	hrm_1.id =  #{userId,jdbcType=INTEGER}
+	and a.taskResource = #{taskResource,jdbcType=INTEGER}
+	and wc.userId !=1
+	 <if test="type == 1">
+     	and wc.iscomplete=1
+    	</if>
+  </select>
+  
+     <!--查询未触发的进行中任务  -->
+  <select id="getNotCreateTask" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map">
+   	select '1' isPf,'-1'  receivetime,uf.id requestId,uf.rwly taskResource ,uf.rwmc taskName,uf.id taskId,uf.rwksrq lastoperatedate,uf.rwjsrq taskDemandTime,'' requestid,uf.rwmc name,(uf.rwksrq || uf.rwkssj) operateDateAndTime,
+  	decode(uf.rwly,'0','上下级','1','项目专项','2','周期要务','3','会议')taskResourceName,hrm_1.lastname taskDistributor,hrm_2.lastname taskReceiver
+  	from uf_olo_ding_task uf 
+  	left join hrmresource hrm_1 on uf.cjr = hrm_1.id
+	left join hrmresource hrm_2 on uf.jdr = hrm_2.id
+	where  uf.cjr =  #{userId,jdbcType=INTEGER}
+	and uf.rwly = #{taskResource}
+  	and uf.rwksrq>#{nowDate}
+  </select>
+  
+  <select id="getPgdList" resultMap="getTaskListMap" resultType ="java.util.List" parameterType="Map">
+    select 
+      <if test="type == 0">
+     	0 isFinished,
+    	</if>
+    	 <if test="type == 1">
+     	1 isFinished,
+    	</if>
+    	(select receivetime from (select (receivedate || ' ' || receivetime)  receivetime,requestid from WORKFLOW_CURRENTOPERATOR order by (receivedate || ' ' || receivetime) desc)where requestid = wc.requestid and rownum=1 )  receivetime,
+   hrm_1.lastname taskReceiver,a.requestid,a.cslc,wr.requestname taskName,'管理派工单'taskResource,'系统管理员'taskDistributor from formtable_main_790 a 
+    left join workflow_requestbase wr
+    on a.cslc = wr.requestid
+    left join WORKFLOW_CURRENTOPERATOR wc
+    on a.requestid = wc.requestid
+    left join hrmresource hrm_1 on wc.userid = hrm_1.id
+    where wc.nodeid in(#{nodeId,jdbcType=VARCHAR})
+    and wr.requestname is not null
+    and wc.userid = #{userId,jdbcType=INTEGER} 
+  </select>
+  
+  
+  <select id="getNeedToCreateTask" resultMap="getNeedToCreateTask" resultType ="java.util.List">
+       select a.cfsj,a.rwfj,a.sfwzq,a.requestId,a.id taskId,a.rwkssj,a.rwksrq,a.cfzq,a.rwjssj,a.rwjsrq,a.rwmc,a.rwly,a.cjr,a.zxr,a.jdr,a.xzr,a.rwnr rwnrStr,a.taskCreatedate,a.taskCreatedate ,b.sfgd
+       from uf_olo_ding_task a left join formtable_main_1013 b on a.id = b.rwjmid
+       where a.sfcf is null 
+  </select>
+   
+  <select id="queryTaskDetail" resultMap="getNeedToCreateTask" resultType ="java.util.List" parameterType="Map">
+       select a.requestid,a.id taskId,a.name rwmc,decode(a.taskResource,'0','上下级','1','项目专项','2','周期要务','3','会议') rwly,
+				 hr1.lastname zxr,hr2.lastname jdr,hr3.lastname cjr, a.xzr xzr, a.rwksrq rwksrq,a.rwjzrq rwjsrq,a.cfzq
+				 ,a.rw_content rwnrStr,a.rwfjdz rwfj,c.nodename currentNode from formtable_main_836 a
+				 left join hrmresource hr1 on a.zxr = hr1.id  left join hrmresource hr2 on a.jdr = hr2.id
+				 left join hrmresource hr3 on a.re_cjr = hr3.id 
+				 left join workflow_requestbase b   on a.requestid = b.requestid 
+				 left join workflow_nodebase c   on b.currentnodeid = c.id  where a.id = #{taskId}
+  </select>
+  
+  
+  <insert id="addRwnr" parameterType="Map">
+      insert into formtable_main_836_dt1(mainId,rwnr)values
+(
+        #{mainId,jdbcType=VARCHAR}, #{rwnr,jdbcType=VARCHAR}
+)
+  </insert>
+      
+   <select id="getTaskMx" resultMap="getTaskMx" resultType ="java.util.List" parameterType="Map">
+      select mainId,rwnr from formtable_main_836_dt1  where mainId = #{taskId} 
+  </select>
+  
+    <select id="getPeopleName" resultMap="getPeopleName" resultType ="java.util.List" parameterType="Map">
+      select lastname from hrmresource where id =#{id}
+  </select>
+  
+    
+      <select id="mx" resultMap="mx" resultType ="java.util.List" parameterType="Map">
+      select rwnr from formtable_main_836_dt1 where mainid =#{mainid}
+  </select>
+  
+       <select id="queryTaskId" resultMap="queryTaskId" resultType ="java.util.List" parameterType="Map">
+      	select id from formtable_main_836 where requestid=#{requestId}
+  </select>
+  
+      <update id="updateSfcf" parameterType="Map">
+            update uf_olo_ding_task set sfcf='0' where id = #{taskId}
+       </update>
+       
+        <update id="updateScsj" parameterType="Map">
+            update uf_olo_ding_task set cfsj=#{cfsj} where id = #{taskId}
+       </update>
+       
+  
+  <!--如果进行中的列表数据不再formtable_main_836中，就从uf_olo_ding_task取  -->
+   <select id="queryTaskDetailByUf" resultMap="getNeedToCreateTask" resultType ="java.util.List" parameterType="Map">
+       select '' requestid,a.id taskId,a.rwmc rwmc,decode(a.rwly,'0','上下级','1','项目专项','2','周期要务','3','会议') rwly,
+				 a.zxr,hr2.lastname jdr,hr3.lastname cjr, a.xzr xzr, a.rwksrq rwksrq,a.rwjsrq rwjsrq,a.cfzq,
+				 a.rwnr rwnrStr,a.rwfj,'' currentNode from uf_olo_ding_task a
+				 left join hrmresource hr2 on a.jdr = hr2.id
+				 left join hrmresource hr3 on a.cjr = hr3.id 
+				 left join workflow_requestbase b   on a.requestid = b.requestid 
+				 left join workflow_nodebase c   on b.currentnodeid = c.id  where a.id = #{taskId}
+  </select>
+  
+     <select id="queryUfTableByUuid" resultMap="getNeedToCreateTask" resultType ="java.lang.String">
+       	select a.zykssjjson zykssjJson,a.zyyqscjson zyyqscJson,a.sfwjd,a.sfzx,a.cron,a.cfsj,a.rwfj,a.sfwzq,a.requestId,a.id taskId,a.rwkssj,a.rwksrq,a.cfzq,a.rwjssj,a.rwjsrq,a.rwmc,a.rwly,a.cjr,a.zxr,a.jdr,a.xzr,a.rwnr rwnrStr,a.taskCreatedate,a.taskCreatedate
+       	,a.sjjg intervalNum,a.dyckssj	
+       from uf_olo_ding_task a
+       where zqywUuid = #{uuid}
+  </select>
+  
+      <select id="aleradyCreateworkFlow" resultMap="getNeedToCreateTask" resultType ="java.lang.String">
+       	select zxr from formtable_main_836 where rwjmid = (select id from uf_olo_ding_task where zqywUuid = #{uuid}) 
+  </select>
+ 
+   <select id="test" resultMap="test" resultType ="java.lang.String">
+       	select '123' testZd from dual
+  </select>
+  
+   
+   <!--更新sfzx  -->
+    <update id="updateSfzx" parameterType="Map">
+            update uf_olo_ding_task set sfzx=#{sfzx} where id = #{taskId}
+       </update>
+       
+     <!--删除建模数据  -->
+    <delete id="deleteTask" parameterType="Map">
+          delete from uf_olo_ding_task where id = #{taskId}
+       </delete>
+     
+</mapper>
